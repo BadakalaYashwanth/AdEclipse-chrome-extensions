@@ -4,17 +4,38 @@
     "version": "1.1.0",
     "permissions": [
         "declarativeNetRequest",
-        "storage"
+        "storage",
+        "contextMenus",
+        "activeTab"
     ],
+    "background": {
+        "service_worker": "background.js"
+    },
     "declarative_net_request": {
         "rule_resources": [
             {
                 "id": "ruleset_1",
                 "enabled": true,
                 "path": "rules.json"
+            },
+            {
+                "id": "ruleset_malware",
+                "enabled": true,
+                "path": "rules_malware.json"
             }
         ]
     },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.youtube.com/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_end"
+        }
+    ],
     "action": {
         "default_popup": "popup.html",
         "default_icon": {

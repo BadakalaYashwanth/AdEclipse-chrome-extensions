@@ -1,18 +1,40 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Ad Blocker</title>
+    <link rel="icon" type="image/png" href="icons/favicon.png">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 15px;
+            width: 250px;
+            background-color: #f4f4f4;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .active {
+            color: green;
+            font-weight: bold;
         }
     </style>
 </head>
+
 <body>
-    <h1>Ad Blocker</h1>
+    <h1>AdEclipse</h1>
     <button id="enable">Enable Blocking</button>
     <button id="disable">Disable Blocking</button>
+
+    <div class="status">
+        <p>Video Ad Blocker: <span class="active">Active</span></p>
+        <p>Malware Protection: <span class="active">Active</span></p>
+    </div>
     <script src="popup.js"></script>
 </body>
+
 </html>
