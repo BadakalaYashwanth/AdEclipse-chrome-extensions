@@ -1,20 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Ad Blocker Options</title>
-    <link rel="icon" type="image/png" href="icons/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdEclipse Settings</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f7f9fc;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 150px;
+            box-sizing: border-box;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        .help-text {
+            color: #666;
+            font-size: 14px;
+            margin: 10px 0 20px 0;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #status {
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #status.visible {
+            opacity: 1;
         }
     </style>
 </head>
+
 <body>
-    <h1>Ad Blocker Options</h1>
-    <label for="whitelist">Whitelist URLs (comma-separated):</label><br>
-    <textarea id="whitelist" rows="4" cols="50"></textarea><br><br>
-    <button id="save">Save</button>
+    <h1>AdEclipse Settings</h1>
+
+    <div class="card">
+        <label for="whitelist">Whitelist Domains</label>
+        <div class="help-text">
+            Enter one domain per line or separated by commas (e.g. <code>example.com, mysite.org</code>).
+            Ads will not be blocked on these sites.
+        </div>
+
+        <textarea id="whitelist" placeholder="example.com&#10;website.org"></textarea>
+
+        <div class="actions">
+            <button id="save">Save Changes</button>
+            <span id="status">Settings saved!</span>
+        </div>
+    </div>
+
     <script src="options.js"></script>
 </body>
+
 </html>

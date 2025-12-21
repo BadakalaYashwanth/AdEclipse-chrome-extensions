@@ -1,12 +1,16 @@
 {
     "manifest_version": 3,
-    "name": "AdEclipse",
-    "version": "1.1.0",
+    "name": "AdEclipse - Advanced Ad Blocker & Skipeer",
+    "version": "1.2.0",
+    "description": "Block annoying ads on websites and automatically skip video ads on YouTube. Fast, lightweight, and privacy-focused.",
     "permissions": [
         "declarativeNetRequest",
         "storage",
         "contextMenus",
         "activeTab"
+    ],
+    "host_permissions": [
+        "*://*.youtube.com/*"
     ],
     "background": {
         "service_worker": "background.js"
@@ -43,6 +47,11 @@
             "48": "icons/icon48.png",
             "128": "icons/icon128.png"
         }
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
     },
     "options_page": "options.html"
 }

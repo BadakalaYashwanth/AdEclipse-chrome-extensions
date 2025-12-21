@@ -1,65 +1,102 @@
-/* content.js for AdEclipse */
+(() => {
+    // strict mode
+    "use strict";
 
-// Configuration
-const AD_SKIP_SELECTOR = '.ytp-ad-skip-button, .ytp-ad-skip-button-modern';
-const AD_OVERLAY_SELECTOR = '.ytp-ad-overlay-close-button';
-const VIDEO_PLAYER_SELECTOR = 'video';
-const AD_MODULE_SELECTOR = '.ytp-ad-module';
+    // Configuration
+    const CONFIG = {
+        SELECTORS: {
+            SKIP_BUTTON: '.ytp-ad-skip-button, .ytp-ad-skip-button-modern',
+            OVERLAY_CLOSE: '.ytp-ad-overlay-close-button',
+            VIDEO_PLAYER: 'video',
+            AD_MODULE: '.ytp-ad-module',
+            PLAYER_CONTAINER: '#movie_player'
+        },
+        INTERVAL_MS: 500, // Check at most every 500ms
+        PLAYBACK_RATE: 16,
+        DEBUG: false // Set to true for development logging
+    };
 
-// Helper to interact with the DOM
-function clickSkipButton() {
-    const skipButton = document.querySelector(AD_SKIP_SELECTOR);
-    if (skipButton) {
-        skipButton.click();
-        console.log('[AdEclipse] Skipped ad');
+    let lastCheck = 0;
+
+    // Helper: conditional logging
+    function log(...args) {
+        if (CONFIG.DEBUG) {
+            console.log('[AdEclipse]', ...args);
+        }
     }
-}
 
-function closeOverlay() {
-    const overlayButton = document.querySelector(AD_OVERLAY_SELECTOR);
-    if (overlayButton) {
-        overlayButton.click();
-        console.log('[AdEclipse] Closed overlay ad');
+    // Action: Click the skip button
+    function clickSkipButton() {
+        const skipButton = document.querySelector(CONFIG.SELECTORS.SKIP_BUTTON);
+        if (skipButton) {
+            skipButton.click();
+            log('Skipped ad');
+        }
     }
-}
 
-function fastForwardAd() {
-    const video = document.querySelector(VIDEO_PLAYER_SELECTOR);
-    // Check if it's an ad (often determined by class on player or ad module visibility)
-    // Simple heuristic: if the ad module is present and active
-    const adModule = document.querySelector(AD_MODULE_SELECTOR);
+    // Action: Close overlay ads
+    function closeOverlay() {
+        const overlayButton = document.querySelector(CONFIG.SELECTORS.OVERLAY_CLOSE);
+        if (overlayButton) {
+            overlayButton.click();
+            log('Closed overlay ad');
+        }
+    }
 
-    // Youtube specific: check if ad is playing
-    if (adModule && adModule.children.length > 0) {
-        if (video && !video.paused && video.duration < 300) { // Ads are usually short, but this logic can be risky.
-            // Better: check for .ad-showing class on the player container
-            const player = document.getElementById('movie_player');
-            if (player && player.classList.contains('ad-showing')) {
-                video.playbackRate = 16;
+    // Action: Fast forward video ads
+    function fastForwardAd() {
+        const video = document.querySelector(CONFIG.SELECTORS.VIDEO_PLAYER);
+        const player = document.querySelector(CONFIG.SELECTORS.PLAYER_CONTAINER);
+
+        if (!video || !player) return;
+
+        // Check if the player indicates an ad is showing
+        const isAdShowing = player.classList.contains('ad-showing');
+
+        if (isAdShowing) {
+             // Only adjust if not already sped up to avoid fighting with user or other scripts
+            if (video.playbackRate !== CONFIG.PLAYBACK_RATE) {
+                video.playbackRate = CONFIG.PLAYBACK_RATE;
                 video.muted = true;
-                console.log('[AdEclipse] Fast-forwarding ad');
+                log('Fast-forwarding ad');
             }
         }
     }
-}
 
-// Observer to handle dynamic content
-const observer = new MutationObserver((mutations) => {
-    clickSkipButton();
-    closeOverlay();
-    fastForwardAd();
-});
+    // Main handler for mutations
+    function handleMutations() {
+        // Simple throttle
+        const now = Date.now();
+        if (now - lastCheck < CONFIG.INTERVAL_MS) return;
+        lastCheck = now;
 
-// Start observing
-function init() {
-    const targetNode = document.body;
-    if (targetNode) {
-        observer.observe(targetNode, { childList: true, subtree: true });
-        console.log('[AdEclipse] Video Ad blocker active');
-    } else {
-        // Retry if body not ready
-        setTimeout(init, 100);
+        clickSkipButton();
+        closeOverlay();
+        fastForwardAd();
     }
-}
 
-init();
+    // Initialize Observer
+    function init() {
+        log('Initializing AdEclipse Content Script');
+        
+        const targetNode = document.body;
+        if (!targetNode) {
+             // If body isn't ready, wait slightly and try again
+            requestAnimationFrame(init);
+            return;
+        }
+
+        const observer = new MutationObserver(handleMutations);
+        observer.observe(targetNode, { childList: true, subtree: true });
+        
+        // Also run once immediately
+        handleMutations();
+    }
+
+    // Start
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();

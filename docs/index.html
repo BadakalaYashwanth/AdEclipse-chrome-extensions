@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdEclipse - Browse Faster, Watch Better</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            <img src="icon.png" alt="AdEclipse Logo">
+            <span>AdEclipse</span>
+        </div>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="https://chrome.google.com/webstore/category/extensions" class="btn-nav">Go to Web Store</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Stop Watching Ads.<br>Start Watching Content.</h1>
+            <p>The lightweight Chrome Extension that blocks annoying ads and automatically skips video ads on YouTube.
+            </p>
+            <div class="cta-group">
+                <a href="#" class="btn-primary" id="install-btn">Add to Chrome — It's Free</a>
+                <p class="tiny-text">Version 1.2.0 • 5-Star Rating</p>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="browser-mockup">
+                <div class="mockup-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <!-- Placeholder for a screenshot you can add later -->
+                <div class="mockup-body">
+                    <img src="icon.png" width="100" style="margin-bottom: 20px;">
+                    <div class="ad-blocked-badge">🚫 42 Ads Blocked</div>
+                    <div class="video-skipped-badge">⏩ Video Skipped</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="feature-card">
+            <div class="icon">⚡</div>
+            <h3>Lightning Fast</h3>
+            <p>Uses Manifest V3 technology to block ads at the network level. No slowdowns, no lag.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">⏩</div>
+            <h3>Youtube Ad Skipper</h3>
+            <p>Automatically clicks "Skip Ad" and fast-forwards through unskippable ads instantly.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">🛡️</div>
+            <h3>Malware Protection</h3>
+            <p>Blocks known malicious domains and phishing attempts to keep your browsing safe.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 AdEclipse. Open Source Project.</p>
+        <div class="links">
+            <a href="https://github.com/BadakalaYashwanth/AdEclipse-ads-Block-chrome-extensions">GitHub</a>
+            <a href="#">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script>
+        // Once verified on the store, replace '#' with your store URL
+        const STORE_URL = '#';
+        document.getElementById('install-btn').href = STORE_URL;
+    </script>
+</body>
+
+</html>

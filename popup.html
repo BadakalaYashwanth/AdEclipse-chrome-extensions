@@ -1,40 +1,43 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Ad Blocker</title>
-    <link rel="icon" type="image/png" href="icons/favicon.png">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 15px;
-            width: 250px;
-            background-color: #f4f4f4;
-        }
-
-        .status {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #666;
-        }
-
-        .active {
-            color: green;
-            font-weight: bold;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdEclipse</title>
+    <link rel="stylesheet" href="popup.css">
 </head>
-
 <body>
-    <h1>AdEclipse</h1>
-    <button id="enable">Enable Blocking</button>
-    <button id="disable">Disable Blocking</button>
+    <div class="container">
+        <header>
+            <div class="logo-area">
+                <img src="icons/icon48.png" alt="Logo" class="logo" id="logo_img">
+                <h1>AdEclipse</h1>
+            </div>
+            <button id="settings-btn" title="Settings" class="icon-btn">⚙️</button>
+        </header>
 
-    <div class="status">
-        <p>Video Ad Blocker: <span class="active">Active</span></p>
-        <p>Malware Protection: <span class="active">Active</span></p>
+        <main>
+            <div class="control-group">
+                <div class="label-group">
+                    <h2>Ad Blocking</h2>
+                    <p id="status-text">Active</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-blocking">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            
+            <div class="stats invisible" id="stats-area">
+                <!-- Placeholder for future stats -->
+                <p>Protection is running.</p>
+            </div>
+        </main>
+        
+        <footer>
+            <a href="#" id="report-issue">Report Issue</a>
+        </footer>
     </div>
     <script src="popup.js"></script>
 </body>
-
 </html>
