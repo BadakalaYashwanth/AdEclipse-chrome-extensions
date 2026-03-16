@@ -202,6 +202,6 @@
     }
 
     // Clean up observer when the content-script context is invalidated
-    window.addEventListener("unload", stopObserver);
+    window.addEventListener("pagehide", stopObserver);
 
 })();
