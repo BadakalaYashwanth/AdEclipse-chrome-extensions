@@ -201,7 +201,16 @@
         init();
     }
 
-    // Clean up observer when the content-script context is invalidated
-    window.addEventListener("pagehide", stopObserver);
+    // Clean up observer when the extension context is invalidated.
+    // window.addEventListener("unload"/"pagehide") is blocked by YouTube's
+    // Permissions-Policy. The correct pattern for content scripts is to open
+    // a port — when the background disconnects (page unload / extension reload),
+    // the port fires onDisconnect and we tear down cleanly.
+    try {
+        const port = chrome.runtime.connect({ name: "content-keepalive" });
+        port.onDisconnect.addListener(stopObserver);
+    } catch (_) {
+        // If runtime is unavailable (e.g. extension just reloaded), do nothing.
+    }
 
 })();
