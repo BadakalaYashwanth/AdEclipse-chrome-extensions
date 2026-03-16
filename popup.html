@@ -4,39 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdEclipse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="popup.css">
 </head>
 <body>
     <div class="container">
+
+        <!-- ── Header ── -->
         <header>
             <div class="logo-area">
-                <img src="icons/icon48.png" alt="Logo" class="logo" id="logo_img">
-                <h1>AdEclipse</h1>
+                <img src="icons/icon48.png" alt="AdEclipse logo" class="logo" id="logo_img">
+                <span class="logo-text">AdEclipse</span>
             </div>
-            <button id="settings-btn" title="Settings" class="icon-btn">⚙️</button>
+            <button id="settings-btn" class="icon-btn" title="Open Settings" aria-label="Settings">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+            </button>
         </header>
 
-        <main>
-            <div class="control-group">
-                <div class="label-group">
-                    <h2>Ad Blocking</h2>
-                    <p id="status-text">Active</p>
+        <!-- ── Status Banner ── -->
+        <div class="status-banner active" id="status-banner">
+            <span class="status-indicator" id="status-indicator"></span>
+            <span id="status-label">Protection Active</span>
+        </div>
+
+        <!-- ── Stats ── -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value" id="blocked-count">0</div>
+                <div class="stat-label">Ads Blocked</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-card">
+                <div class="stat-value" id="whitelist-count">0</div>
+                <div class="stat-label">Whitelisted</div>
+            </div>
+        </div>
+
+        <!-- ── Toggles ── -->
+        <div class="toggles">
+            <div class="toggle-row">
+                <div>
+                    <div class="toggle-title">Ad Blocking</div>
+                    <div class="toggle-desc" id="toggle-enabled-desc">All ad blocking enabled</div>
                 </div>
-                <label class="switch">
-                    <input type="checkbox" id="toggle-blocking">
-                    <span class="slider round"></span>
+                <label class="switch" aria-label="Toggle ad blocking">
+                    <input type="checkbox" id="toggle-enabled" checked>
+                    <span class="slider"></span>
                 </label>
             </div>
-            
-            <div class="stats invisible" id="stats-area">
-                <!-- Placeholder for future stats -->
-                <p>Protection is running.</p>
+
+            <div class="toggle-row">
+                <div>
+                    <div class="toggle-title">YouTube Ad Skip</div>
+                    <div class="toggle-desc">Auto-skip & fast-forward video ads</div>
+                </div>
+                <label class="switch" aria-label="Toggle YouTube ad skipping">
+                    <input type="checkbox" id="toggle-youtube" checked>
+                    <span class="slider"></span>
+                </label>
             </div>
-        </main>
-        
+
+            <div class="toggle-row">
+                <div>
+                    <div class="toggle-title">Block Trackers</div>
+                    <div class="toggle-desc">Block analytics & tracking scripts</div>
+                </div>
+                <label class="switch" aria-label="Toggle tracker blocking">
+                    <input type="checkbox" id="toggle-trackers" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- ── Footer Actions ── -->
         <footer>
-            <a href="#" id="report-issue">Report Issue</a>
+            <button class="text-btn" id="whitelist-btn" title="Whitelist the current site">
+                ✦ Whitelist Site
+            </button>
+            <button class="text-btn" id="report-btn" title="Report a missed ad or bug">
+                ⚑ Report Issue
+            </button>
         </footer>
+
     </div>
     <script src="popup.js"></script>
 </body>

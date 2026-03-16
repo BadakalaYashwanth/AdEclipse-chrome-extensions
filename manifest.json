@@ -1,24 +1,28 @@
 {
     "manifest_version": 3,
-    "name": "AdEclipse - Advanced Ad Blocker & Skipeer",
-    "version": "1.2.0",
-    "description": "Block annoying ads on websites and automatically skip video ads on YouTube. Fast, lightweight, and privacy-focused.",
+    "name": "AdEclipse - Advanced Ad Blocker & Skipper",
+    "version": "2.0.0",
+    "description": "Block annoying ads, trackers, and malware. Auto-skip YouTube video ads. Fast, lightweight, and 100% private.",
     "permissions": [
         "declarativeNetRequest",
+        "declarativeNetRequestFeedback",
         "storage",
         "contextMenus",
-        "activeTab"
+        "activeTab",
+        "tabs"
     ],
     "host_permissions": [
-        "*://*.youtube.com/*"
+        "*://*.youtube.com/*",
+        "*://*.youtu.be/*"
     ],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "background.js",
+        "type": "module"
     },
     "declarative_net_request": {
         "rule_resources": [
             {
-                "id": "ruleset_1",
+                "id": "ruleset_ads",
                 "enabled": true,
                 "path": "rules.json"
             },
@@ -26,13 +30,19 @@
                 "id": "ruleset_malware",
                 "enabled": true,
                 "path": "rules_malware.json"
+            },
+            {
+                "id": "ruleset_tracking",
+                "enabled": true,
+                "path": "rules_tracking.json"
             }
         ]
     },
     "content_scripts": [
         {
             "matches": [
-                "*://*.youtube.com/*"
+                "*://*.youtube.com/*",
+                "*://*.youtu.be/*"
             ],
             "js": [
                 "content.js"
@@ -53,5 +63,6 @@
         "48": "icons/icon48.png",
         "128": "icons/icon128.png"
     },
-    "options_page": "options.html"
+    "options_page": "options.html",
+    "minimum_chrome_version": "107"
 }

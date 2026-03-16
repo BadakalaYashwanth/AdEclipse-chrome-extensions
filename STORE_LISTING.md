@@ -1,43 +1,45 @@
 # Chrome Web Store Listing for AdEclipse
 
 ## Extension Name
-**AdEclipse - Ad Blocker & Video Ad Skipper**
+AdEclipse - Ad Blocker & YouTube Ad Skipper
 
-## Short Description (Max 132 chars)
-Block annoying ads and automatically skip video ads on YouTube. Fast, private, and lightweight protection for your browser.
+## Short Description (132 chars max)
+Block ads across the web and automatically skip YouTube pre-roll ads. Fast, private, and open source.
 
 ## Detailed Description
-**Take control of your browsing experience with AdEclipse.**
 
-AdEclipse is a lightweight, high-performance ad blocker designed to make the web cleaner, faster, and safer. Unlike heavy extensions that slow down your browser, AdEclipse uses the latest Manifest V3 technology to block ads at the network level without compromising performance.
+Take control of your browsing with AdEclipse.
 
-**Key Features:**
+AdEclipse is a lightweight ad blocker built on Chrome's Manifest V3 platform. It blocks ad requests at the network level before they load, and automatically handles YouTube video ads so you never have to click Skip yourself.
 
-🚫 **Advanced Ad Blocking**: Automatically blocks intrusive ads, banners, and popups on your favorite websites.
+Key Features:
 
-⏩ **Auto-Skip Video Ads**: Watch YouTube uninterrupted! AdEclipse detects video ads, automatically clicks "Skip," and fast-forwards through unskippable ads.
+Ad Blocking. 80+ rules covering major ad networks including DoubleClick, Google Ad Services, AppNexus, Criteo, Taboola, Outbrain, and more. Blocks banner ads, pop-unders, and injected ad scripts.
 
-🔒 **Malware Protection**: Includes built-in protection against known malicious domains and phishing sites.
+YouTube Ad Skipper. Detects skippable pre-roll ads and clicks skip automatically. For unskippable ads, the content script fast-forwards the ad at maximum playback speed. Works on YouTube's single-page navigation.
 
-⚪ **Smart Whitelist**: Support your favorite content creators by easily whitelisting specific sites with two clicks.
+Tracker Blocking. Optional ruleset that stops 20+ analytics and tracking scripts, including Google Analytics, Hotjar, Mixpanel, Amplitude, FullStory, and Microsoft Clarity.
 
-🎨 **Modern & Simple**: A clean, easy-to-use interface that stays out of your way.
+Whitelist Management. Add any domain to your whitelist from the popup, the options page, or the right-click context menu. Whitelist rules apply instantly without restarting the browser.
 
-**Privacy First:**
-AdEclipse runs entirely on your device. We do not track your browsing history or collect personal data.
+Privacy First. AdEclipse runs entirely on your device. Nothing is sent to any server. Settings sync only via your own Chrome storage.
 
-**Version 1.2.0 Updates:**
-- Improved YouTube ad skipping performance (CPU optimized).
-- Brand new modern user interface.
-- Enhanced stability and error handling.
+Open Source. The full source code is on GitHub. Audit it yourself.
 
----
+Version 2.0.0 Updates:
+- Expanded blocklist from 5 rules to 80+ rules across three rulesets.
+- Fixed a bug where saving the options page whitelist did not update blocking rules.
+- Added tracker blocking as an optional toggle.
+- Improved YouTube ad detection with multiple fallback selectors.
+- Rebuilt popup with per-feature toggles.
+- Added context script sync with background state.
+- Properly restores video playback speed after ads end.
 
-## Keywords / Tags
-adblock, ad blocker, youtube ad skipper, video skipper, popup blocker, privacy, security, malware block, fast, lightweight
+Limitations to know before installing:
+AdEclipse has a smaller blocklist than uBlock Origin. If you need maximum ad coverage across every site, uBlock Origin is the better choice. AdEclipse is designed to be simple, auditable, and easy to understand.
 
 ## Category
-Productivity / Workflow
+Productivity
 
-## Privacy Policy (Stub)
-AdEclipse does not collect, store, or transmit any personal user data. All ad-blocking logic is performed locally on your device using Chrome's declarativeNetRequest API. Settings (whitelists) are stored in your local Chrome sync storage.
+## Privacy Policy
+AdEclipse does not collect, store, or transmit any personal user data. All ad-blocking logic runs locally using Chrome's declarativeNetRequest API. User settings including the whitelist are stored in chrome.storage.sync, which is controlled entirely by your Chrome account. No data is sent to any third-party server.

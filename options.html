@@ -1,117 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdEclipse Settings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ── Design Tokens ── */
+        :root {
+            --green:      #22c55e;
+            --green-dim:  #16a34a;
+            --red:        #ef4444;
+            --accent:     #6366f1;
+            --bg:         #0b0f1a;
+            --surface:    #141928;
+            --surface-2:  #1e2740;
+            --border:     rgba(255,255,255,0.08);
+            --text:       #f0f4ff;
+            --text-muted: #8892ab;
+            --radius:     12px;
+            --transition: 0.18s ease;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f7f9fc;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
             padding: 40px 20px;
-            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        h1 {
-            border-bottom: 2px solid #e9ecef;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
+        /* Radial glow */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 50% at 50% -5%, rgba(99,102,241,0.15), transparent);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        /* ── Page Wrapper ── */
+        .page {
+            max-width: 720px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        label {
-            display: block;
-            margin-bottom: 15px;
+        /* ── Page Header ── */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .page-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.4px;
+            background: linear-gradient(135deg, #f0f4ff 30%, #8892ab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .version-badge {
+            margin-left: auto;
+            font-size: 11px;
             font-weight: 500;
+            color: var(--text-muted);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3px 10px;
         }
 
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-family: monospace;
+        /* ── Section ── */
+        section { margin-bottom: 20px; }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+        }
+
+        /* ── Stats Grid ── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-box .val {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: -1px;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 6px;
+        }
+
+        .stat-box .lbl {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── Whitelist ── */
+        label[for="whitelist-input"] {
+            display: block;
+            font-weight: 600;
             font-size: 14px;
-            resize: vertical;
-            min-height: 150px;
-            box-sizing: border-box;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+            color: var(--text);
+            margin-bottom: 6px;
         }
 
         .help-text {
-            color: #666;
-            font-size: 14px;
-            margin: 10px 0 20px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            line-height: 1.6;
         }
 
+        .help-text code {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-family: "Menlo", "Consolas", monospace;
+            font-size: 11px;
+            color: var(--green);
+        }
+
+        textarea#whitelist-input {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: "Menlo", "Consolas", monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            resize: vertical;
+            min-height: 140px;
+            transition: border-color var(--transition), box-shadow var(--transition);
+            outline: none;
+        }
+
+        textarea#whitelist-input::placeholder { color: var(--text-muted); }
+
+        textarea#whitelist-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+        }
+
+        /* ── Actions ── */
         .actions {
-            margin-top: 20px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            margin-top: 14px;
+            flex-wrap: wrap;
         }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
+        .btn {
             border: none;
-            padding: 10px 24px;
-            border-radius: 6px;
-            font-size: 16px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        #status {
+            font-family: inherit;
             font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            font-weight: 500;
+            padding: 10px 22px;
+            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
         }
 
-        #status.visible {
-            opacity: 1;
+        .btn:active { transform: translateY(1px); }
+        .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+        .btn-primary {
+            background: var(--green);
+            color: #0b0f1a;
         }
+
+        .btn-primary:hover {
+            background: var(--green-dim);
+            box-shadow: 0 4px 16px rgba(34,197,94,0.25);
+        }
+
+        .btn-secondary {
+            background: var(--surface-2);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: #273150;
+            color: var(--text);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .btn-danger {
+            background: rgba(239,68,68,0.1);
+            color: var(--red);
+            border: 1px solid rgba(239,68,68,0.2);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239,68,68,0.18);
+        }
+
+        /* ── Status Message ── */
+        .status-msg {
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .status-msg.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .status-msg.success { color: var(--green); }
+        .status-msg.error   { color: var(--red); }
+
+        /* ── Footer ── */
+        .page-footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .page-footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .page-footer a:hover { text-decoration: underline; }
     </style>
 </head>
-
 <body>
-    <h1>AdEclipse Settings</h1>
+<div class="page">
 
-    <div class="card">
-        <label for="whitelist">Whitelist Domains</label>
-        <div class="help-text">
-            Enter one domain per line or separated by commas (e.g. <code>example.com, mysite.org</code>).
-            Ads will not be blocked on these sites.
-        </div>
-
-        <textarea id="whitelist" placeholder="example.com&#10;website.org"></textarea>
-
-        <div class="actions">
-            <button id="save">Save Changes</button>
-            <span id="status">Settings saved!</span>
-        </div>
+    <!-- Page Header -->
+    <div class="page-header">
+        <img src="icons/icon48.png" alt="AdEclipse logo">
+        <h1>AdEclipse Settings</h1>
+        <span class="version-badge">v2.0.0</span>
     </div>
 
-    <script src="options.js"></script>
-</body>
+    <!-- Stats -->
+    <section>
+        <div class="section-title">Protection Overview</div>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="val" id="stat-total">0</div>
+                <div class="lbl">Ads Blocked</div>
+            </div>
+            <div class="stat-box">
+                <div class="val" id="stat-whitelist">0</div>
+                <div class="lbl">Whitelisted</div>
+            </div>
+            <div class="stat-box">
+                <div class="val" id="stat-rulesets">3</div>
+                <div class="lbl">Rulesets</div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Whitelist -->
+    <section>
+        <div class="section-title">Whitelist</div>
+        <div class="card">
+            <label for="whitelist-input">Allowed Domains</label>
+            <p class="help-text">
+                Enter one domain per line (e.g. <code>example.com</code> or <code>mysite.org</code>).
+                Ads will <strong>not</strong> be blocked on whitelisted sites.
+            </p>
+            <textarea id="whitelist-input" placeholder="example.com&#10;mysite.org&#10;support-them.net" spellcheck="false"></textarea>
+            <div class="actions">
+                <button class="btn btn-primary" id="save-btn">Save Changes</button>
+                <button class="btn btn-secondary" id="clear-btn">Clear All</button>
+                <span class="status-msg" id="save-status" role="status" aria-live="polite"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Danger Zone -->
+    <section>
+        <div class="section-title">Statistics</div>
+        <div class="card">
+            <p class="help-text" style="margin-bottom: 14px;">
+                Reset the blocked-ads counter shown in the popup. This does not affect your whitelist or settings.
+            </p>
+            <div class="actions">
+                <button class="btn btn-danger" id="reset-stats">Reset Counter</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="page-footer">
+        AdEclipse &mdash; open source &amp; privacy-first &nbsp;·&nbsp;
+        <a href="https://github.com/BadakalaYashwanth/AdEclipse-ads-Block-chrome-extensions" target="_blank" rel="noopener">GitHub</a>
+    </div>
+
+</div>
+<script src="options.js"></script>
+</body>
 </html>

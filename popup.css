@@ -1,94 +1,273 @@
+/* ============================================================
+   popup.css — AdEclipse v2 Popup Styles
+   Dark glassmorphism design system
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Design Tokens ────────────────────────────────────────── */
 :root {
-    --primary-color: #4CAF50;
-    --bg-color: #ffffff;
-    --text-color: #333333;
-    --secondary-text: #666666;
-    --border-radius: 12px;
-    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+    --green:        #22c55e;
+    --green-glow:   rgba(34, 197, 94, 0.35);
+    --green-dim:    #16a34a;
+    --red:          #ef4444;
+    --red-glow:     rgba(239, 68, 68, 0.35);
+    --accent:       #6366f1;
+    --accent-glow:  rgba(99, 102, 241, 0.25);
+
+    --bg:           #0b0f1a;
+    --surface:      #141928;
+    --surface-2:    #1e2740;
+    --surface-3:    #273150;
+    --border:       rgba(255, 255, 255, 0.07);
+    --border-hover: rgba(255, 255, 255, 0.14);
+
+    --text:         #f0f4ff;
+    --text-muted:   #8892ab;
+    --text-dim:     #4e5a72;
+
+    --radius-sm:    8px;
+    --radius:       12px;
+    --radius-lg:    16px;
+    --transition:   0.18s ease;
+
+    --popup-width:  320px;
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    width: 320px;
+/* ── Reset ────────────────────────────────────────────────── */
+*, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
-    background-color: #f7f9fc;
-    color: var(--text-color);
+    padding: 0;
 }
 
+/* ── Base ─────────────────────────────────────────────────── */
+body {
+    width: var(--popup-width);
+    min-height: 260px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+}
+
+/* Subtle radial glow behind popup */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(99,102,241,0.12), transparent);
+    pointer-events: none;
+}
+
+/* ── Layout ───────────────────────────────────────────────── */
 .container {
-    padding: 16px;
-    background: var(--bg-color);
-    min-height: 200px;
+    position: relative;
+    padding: 14px 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
+/* ── Header ───────────────────────────────────────────────── */
 header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    justify-content: space-between;
 }
 
 .logo-area {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 .logo {
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    object-fit: contain;
 }
 
-h1 {
-    font-size: 18px;
-    margin: 0;
-    font-weight: 600;
+.logo-text {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    background: linear-gradient(135deg, #f0f4ff 30%, #8892ab);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .icon-btn {
-    background: none;
-    border: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
     cursor: pointer;
-    font-size: 18px;
-    opacity: 0.6;
-    transition: opacity 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition), background var(--transition), border-color var(--transition);
+    flex-shrink: 0;
 }
 
 .icon-btn:hover {
-    opacity: 1;
+    background: var(--surface-2);
+    border-color: var(--border-hover);
+    color: var(--text);
 }
 
-.control-group {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: var(--border-radius);
-    padding: 16px;
+.icon-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ── Status Banner ────────────────────────────────────────── */
+.status-banner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 9px 13px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    gap: 9px;
+    transition: border-color var(--transition), background var(--transition);
 }
 
-.label-group h2 {
-    font-size: 16px;
-    margin: 0 0 4px 0;
+.status-banner.active {
+    border-color: rgba(34, 197, 94, 0.3);
+    background: linear-gradient(135deg, rgba(34,197,94,0.06) 0%, var(--surface) 100%);
 }
 
-.label-group p {
+.status-banner.paused {
+    border-color: rgba(239, 68, 68, 0.3);
+    background: linear-gradient(135deg, rgba(239,68,68,0.06) 0%, var(--surface) 100%);
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 3px var(--green-glow);
+    flex-shrink: 0;
+    transition: background var(--transition), box-shadow var(--transition);
+    /* Pulse animation */
+    animation: pulse-green 2.5s ease-in-out infinite;
+}
+
+.status-indicator.paused {
+    background: var(--red);
+    box-shadow: 0 0 0 3px var(--red-glow);
+    animation: none;
+}
+
+@keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 3px var(--green-glow); }
+    50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0.1); }
+}
+
+#status-label {
     font-size: 13px;
-    margin: 0;
-    color: var(--secondary-text);
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.1px;
 }
 
-/* Toggle Switch */
+/* ── Stats Row ────────────────────────────────────────────── */
+.stats-row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.stat-card {
+    flex: 1;
+    text-align: center;
+    padding: 2px 12px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 4px;
+    transition: color var(--transition);
+    font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border);
+    flex-shrink: 0;
+}
+
+/* ── Toggle Section ───────────────────────────────────────── */
+.toggles {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 13px;
+    border-bottom: 1px solid var(--border);
+    gap: 8px;
+    transition: background var(--transition);
+}
+
+.toggle-row:last-child { border-bottom: none; }
+
+.toggle-row:hover { background: rgba(255,255,255,0.025); }
+
+.toggle-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 1px;
+}
+
+.toggle-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    transition: color var(--transition);
+}
+
+/* ── Toggle Switch ────────────────────────────────────────── */
 .switch {
     position: relative;
     display: inline-block;
-    width: 50px;
-    height: 28px;
+    width: 40px;
+    height: 23px;
+    flex-shrink: 0;
+    cursor: pointer;
 }
 
-.switch input { 
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
@@ -96,61 +275,75 @@ h1 {
 
 .slider {
     position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
+    inset: 0;
+    background: var(--surface-3);
+    border-radius: 23px;
+    transition: background var(--transition);
+    border: 1px solid var(--border);
 }
 
-.slider:before {
-    position: absolute;
+.slider::before {
     content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 2px;
+    top: 2px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
 }
 
 input:checked + .slider {
-    background-color: var(--primary-color);
+    background: var(--green);
+    border-color: var(--green-dim);
 }
 
-input:focus + .slider {
-    box-shadow: 0 0 1px var(--primary-color);
+input:checked + .slider::before {
+    transform: translateX(17px);
 }
 
-input:checked + .slider:before {
-    transform: translateX(22px);
+input:focus-visible + .slider {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
+/* ── Footer ───────────────────────────────────────────────── */
 footer {
+    display: flex;
+    gap: 8px;
+}
+
+.text-btn {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 8px 6px;
     text-align: center;
-    font-size: 12px;
-    margin-top: 20px;
+    transition: color var(--transition), background var(--transition), border-color var(--transition);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-footer a {
-    color: var(--secondary-text);
-    text-decoration: none;
+.text-btn:hover {
+    background: var(--surface-2);
+    color: var(--text);
+    border-color: var(--border-hover);
 }
 
-footer a:hover {
-    text-decoration: underline;
+.text-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
-.invisible {
-    display: none;
+.text-btn:active {
+    transform: translateY(1px);
 }
